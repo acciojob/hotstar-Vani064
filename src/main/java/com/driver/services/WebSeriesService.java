@@ -5,6 +5,7 @@ import com.driver.model.ProductionHouse;
 import com.driver.model.WebSeries;
 import com.driver.repository.ProductionHouseRepository;
 import com.driver.repository.WebSeriesRepository;
+import com.driver.services.transformers.WebseriesTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,21 @@ public class WebSeriesService {
         //use function written in Repository Layer for the same
         //Dont forget to save the production and webseries Repo
 
-        return null;
+        WebSeries webSeries = webSeriesRepository.findBySeriesName(webSeriesEntryDto.getSeriesName());
+        if(webSeries !=null)
+        {
+            throw new Exception("Series is already present");
+        }
+
+        WebSeries webSeries1 = WebseriesTransformer.webSeriesEntryDtoToWebseries(webSeriesEntryDto);
+        ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
+        double avg = (productionHouse.getRatings() + webSeriesEntryDto.getRating())/2 ;
+          productionHouse.getWebSeriesList().add(webSeries1);
+          productionHouse.setRatings(avg);
+
+          webSeries1.setProductionHouse(productionHouse);
+          productionHouseRepository.save(productionHouse);
+          return webSeriesRepository.save(webSeries1).getId();
     }
 
 }

@@ -15,6 +15,7 @@ public class ProductionHouse {
     @Column(unique = true)
     private String name;
 
+
     private double ratings;
 
     @OneToMany(mappedBy = "productionHouse",cascade = CascadeType.ALL)
@@ -23,9 +24,11 @@ public class ProductionHouse {
     public ProductionHouse(String name) {
         this.name = name;
         this.webSeriesList = new ArrayList<>();
+        this.ratings = 0;
     }
 
     public ProductionHouse() {
+        ratings = 0;
     }
 
     public int getId() {
