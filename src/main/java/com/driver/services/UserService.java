@@ -45,7 +45,7 @@ public class UserService {
                      count++;
                  }
                  else if(user.getSubscription().getSubscriptionType() == SubscriptionType.PRO && (webSeries.getSubscriptionType() == SubscriptionType.PRO ||
-                         webSeries.getSubscriptionType() == SubscriptionType.BASIC)
+                         webSeries.getSubscriptionType() == SubscriptionType.BASIC))
                  {
                      count++;
                  }
@@ -56,4 +56,3 @@ public class UserService {
     }
 }
 
-}
